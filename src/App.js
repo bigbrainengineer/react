@@ -26,11 +26,17 @@ class AddNewTask extends React.Component {
 
 class ToDoAppList extends React.Component {
 	constructor() {
-			super();
-		}
+		super();
+		this.remove = this.remove.bind(this);
+	}
+	remove(element) {
+		let text = element.target.parentNode.querySelector('span').innerText;
+		this.props.remove('text');
+	}
+
 	render () {
 		let items = this.props.tasks.map((task, index) => {
-			return <li key={index}>{task}</li>
+			return <li key={index}><span>{task}</span><button onClick={this.remove}>X</button></li>
 		})
 		return (
 			<ul>
@@ -47,11 +53,18 @@ class App extends React.Component {
 			tasks : tasksList
 		}
 		this.updateList = this.updateList.bind(this);
+		this.removeTask = this.removeTask.bind(this);
 	}
 
 	updateList(text) {
 		let updatedTasks = this.state.tasks;
 		updatedTasks.push(text);
+		this.setState({tasks:updatedTasks});
+	}
+
+	removeTask(text) {
+		let updatedTasks = this.state.tasks;
+		updatedTasks.splice(updatedTasks.indexOf(text), 1);
 		this.setState({tasks:updatedTasks})
 	}
 
@@ -60,7 +73,7 @@ class App extends React.Component {
 			<div>
 				<h1>ToDo App</h1>
 				<AddNewTask updateList={this.updateList} />
-				<ToDoAppList tasks={this.state.tasks}/>
+				<ToDoAppList tasks={this.state.tasks} remove={this.removeTask}/>
 			</div>
 		)
 	}
