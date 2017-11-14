@@ -29,6 +29,7 @@ class ToDoAppList extends React.Component {
 		super();
 		this.remove = this.remove.bind(this);
 	}
+	
 	remove(element) {
 		let text = element.target.parentNode.querySelector('span').innerText;
 		this.props.remove('text');
