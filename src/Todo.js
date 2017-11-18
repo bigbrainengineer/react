@@ -1,5 +1,6 @@
 import React from 'react';
-import AppStore from './stores/AppStore';
+
+var tasksList = ['task 1', 'task 2'];
 
 class AddNewTask extends React.Component {
     constructor() {
@@ -7,15 +8,18 @@ class AddNewTask extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(event) {
-    	let value = AppStore.handleSubmit(event);
+        event.preventDefault();
+        let element = event.target.querySelector('input');
+        let value = element.value;
+        element.value = '';
         this.props.updateList(value);
     }
 
     render () {
         return (
-			<form onSubmit={this.handleSubmit}>
-				<input type='text' />
-			</form>
+            <form onSubmit={this.handleSubmit}>
+                <input type='text' />
+            </form>
         )
     }
 }
@@ -36,9 +40,9 @@ class ToDoAppList extends React.Component {
             return <li key={index}><span>{task}</span><button onClick={this.remove}>X</button></li>
         })
         return (
-			<ul>
+            <ul>
                 {items}
-			</ul>
+            </ul>
         )
     }
 }
@@ -47,31 +51,31 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tasks : AppStore.getAll(),
+            tasks : tasksList
         }
         this.updateList = this.updateList.bind(this);
-        this.removeTodo = this.removeTodo.bind(this);
+        this.removeTask = this.removeTask.bind(this);
     }
 
     updateList(text) {
-        AppStore.updateList(text);
-        let updatedTasks = AppStore.getAll();
+        let updatedTasks = this.state.tasks;
+        updatedTasks.push(text);
         this.setState({tasks:updatedTasks});
     }
 
-    removeTodo(text) {
-        AppStore.removeTodo(text);
-        let updatedTasks = AppStore.getAll();
+    removeTask(text) {
+        let updatedTasks = this.state.tasks;
+        updatedTasks.splice(updatedTasks.indexOf(text), 1);
         this.setState({tasks:updatedTasks})
     }
 
     render () {
         return (
-			<div>
-				<h1>ToDo App</h1>
-				<AddNewTask updateList={this.updateList} />
-				<ToDoAppList tasks={this.state.tasks} remove={this.removeTodo}/>
-			</div>
+            <div>
+                <h1>ToDo App</h1>
+                <AddNewTask updateList={this.updateList} />
+                <ToDoAppList tasks={this.state.tasks} remove={this.removeTask}/>
+            </div>
         )
     }
 }
