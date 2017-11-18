@@ -3,7 +3,7 @@ import TodoConstants from '../consts/Constants';
 
 
 
-export function addTodo(todo) {
+export function updateList(todo) {
     AppDispatcher.dispatch({
         type: TodoConstants.CREATE_TODO,
         text: todo

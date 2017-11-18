@@ -1,5 +1,6 @@
 import React from 'react';
 import AppStore from './stores/AppStore';
+import * as TodoActions from './actions/TodoActions';
 
 class AddNewTask extends React.Component {
     constructor() {
@@ -54,13 +55,13 @@ class App extends React.Component {
     }
 
     updateList(text) {
-        AppStore.updateList(text);
+        TodoActions.updateList(text);
         let updatedTasks = AppStore.getAll();
         this.setState({tasks:updatedTasks});
     }
 
     removeTodo(text) {
-        AppStore.removeTodo(text);
+        TodoActions.removeTodo(text);
         let updatedTasks = AppStore.getAll();
         this.setState({tasks:updatedTasks})
     }

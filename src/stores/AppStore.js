@@ -15,7 +15,7 @@ class AppStore extends EventEmitter {
     handleActions(action) {
         switch (action.type) {
             case 'CREATE_TODO':
-                this.createTodo(action.text);
+                this.updateList(action.text);
                 break;
             case 'REMOVE_TODO':
                 this.removeTodo(action.text);
@@ -26,12 +26,6 @@ class AppStore extends EventEmitter {
 
     getAll() {
         return this.todos;
-    }
-
-    createTodo(text) {
-        this.todos.push({
-            text : text
-        });
     }
 
     removeTodo(text) {
